@@ -1,0 +1,69 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "iPhone 14",
+      "precio": 899900,
+      "categoria": "electronica",
+      "imagen": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop",
+      "stock": 15
+    },
+    {
+      "id": 2,
+      "nombre": "Auriculares Sony",
+      "precio": 249900,
+      "categoria": "electronica",
+      "imagen": "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=400&fit=crop",
+      "stock": 30
+    },
+    {
+      "id": 3,
+      "nombre": "Camiseta Nike",
+      "precio": 89900,
+      "categoria": "ropa",
+      "imagen": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+      "stock": 50
+    },
+    {
+      "id": 4,
+      "nombre": "Zapatillas Deportivas",
+      "precio": 199900,
+      "categoria": "deportes",
+      "imagen": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+      "stock": 25
+    },
+    {
+      "id": 5,
+      "nombre": "Libro JavaScript",
+      "precio": 45900,
+      "categoria": "libros",
+      "imagen": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=400&fit=crop",
+      "stock": 100
+    },
+    {
+      "id": 6,
+      "nombre": "Smartwatch",
+      "precio": 349900,
+      "categoria": "electronica",
+      "imagen": "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=400&fit=crop",
+      "stock": 20
+    },
+    {
+      "id": 7,
+      "nombre": "Mochila Deportiva",
+      "precio": 129900,
+      "categoria": "deportes",
+      "imagen": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
+      "stock": 40
+    },
+    {
+      "id": 8,
+      "nombre": "Jeans Clásicos",
+      "precio": 159900,
+      "categoria": "ropa",
+      "imagen": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop",
+      "stock": 60
+    }
+  ]
+}
+

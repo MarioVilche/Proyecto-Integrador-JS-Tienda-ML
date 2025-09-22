@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🛒 TiendaML - Tu tienda online </title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <!-- Header  -->
+    <header class="header">
+      <div class="header-container">
+        <a href="#" class="logo">
+          <i class="fas fa-shopping-bag"></i>
+          TiendaML
+        </a>
+
+        <div class="search-container">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar productos, marcas y más..."
+          />
+          <button class="search-btn" id="searchBtn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+        <div class="header-actions">
+          <a href="carrito.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filtros -->
+    <section class="filters-container">
+      <div class="filters-content">
+        <div class="filter-group">
+          <label class="filter-label">Categoría</label>
+          <select id="categoryFilter" class="filter-select">
+            <option value="">Todas las categorías</option>
+            <option value="electronica">Electrónicos</option>
+            <option value="ropa">Ropa y Accesorios</option>
+            <option value="deportes">Deportes</option>
+            <option value="libros">Libros</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Precio</label>
+          <div class="price-range">
+            <input
+              type="number"
+              id="minPrice"
+              class="price-input"
+              placeholder="Mín"
+            />
+            <span>-</span>
+            <input
+              type="number"
+              id="maxPrice"
+              class="price-input"
+              placeholder="Máx"
+            />
+          </div>
+        </div>
+
+        <button class="clear-filters" id="clearFilters">
+          <i class="fas fa-times"></i> Limpiar filtros
+        </button>
+      </div>
+    </section>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+      <!-- Header de productos -->
+      <div class="products-header">
+        <div class="products-count" id="productsCount">
+          Cargando productos...
+        </div>
+        <select id="sortSelect" class="sort-select">
+          <option value="">Ordenar por</option>
+          <option value="price-asc">Menor precio</option>
+          <option value="price-desc">Mayor precio</option>
+          <option value="name-asc">A - Z</option>
+          <option value="name-desc">Z - A</option>
+        </select>
+      </div>
+
+      <!-- Grid de productos -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Los productos se cargarán dinámicamente aquí -->
+      </div>
+
+      <!-- Estado de carga -->
+      <div class="loading" id="loadingState">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner"></i>
+        </div>
+        <p>Cargando productos...</p>
+      </div>
+
+      <!-- Estado vacío -->
+      <div class="empty-state" id="emptyState" style="display: none">
+        <div class="empty-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>No se encontraron productos</h3>
+        <p>Intenta con otros filtros o términos de búsqueda</p>
+      </div>
+    </main>
+
+    <!-- Modal de confirmación -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 class="modal-title">¡Producto agregado!</h3>
+        <p class="modal-message" id="modalMessage">
+          El producto se agregó correctamente a tu carrito
+        </p>
+        <div class="modal-actions">
+          <button
+            class="modal-btn modal-btn-secondary"
+            id="continueShoppingBtn"
+          >
+            Seguir comprando
+          </button>
+          <a
+            href="carrito.html"
+            class="modal-btn modal-btn-primary"
+            style="text-decoration: none"
+          >
+            Ir al carrito
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">
+      <i class="fas fa-check"></i>
+      <span id="toastMessage">Producto agregado al carrito</span>
+    </div>
+
+    <script src="./js/productos.js"></script>
+  </body>
+</html>
+
