@@ -2,7 +2,6 @@
 
 ## 📝 Introducción
 
-**Tiempo:** 1 hora y 30 minutos  
 **Objetivo:** Desarrollar funcionalidades básicas de un carrito de compras utilizando JavaScript, DOM, eventos, localStorage, JSON y fetch.
 
 ## 📋 Temas evaluados
@@ -21,9 +20,8 @@
 - **js/productos.js:** Archivo con TODOs a completar
 - **js/carrito.js:** Archivo con TODOs a completar
 
-## 🎯 Tareas a realizar (90 minutos)
-
-### PARTE 1: Productos (45 minutos)
+## 🎯 Tareas a realizar 
+### PARTE 1: Productos
 
 **1.1 Cargar productos con fetch (10 puntos)**
 - Completar función `cargarProductos()` 
@@ -40,7 +38,7 @@
 - Guardar productos en localStorage como JSON
 - Actualizar contador del carrito
 
-### PARTE 2: Carrito (45 minutos)
+### PARTE 2: Carrito 
 
 **2.1 Cargar carrito desde localStorage (15 puntos)**
 - Completar función `cargarCarrito()`
