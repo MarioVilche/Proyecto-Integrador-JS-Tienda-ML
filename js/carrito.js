@@ -49,12 +49,21 @@ function cargarCarrito() {
     try {
         // TODO: Escribe tu código aquí
         // Ejemplo: const datosGuardados = localStorage.getItem('carrito');
-        
-        
+        const datosGuardados = localStorage.getItem('carrito');
+        if (datosGuardados) {
+            carrito = JSON.parse(datosGuardados);
+        } else {
+            carrito = [];
+        }
+
         console.log('Carrito cargado:', carrito);
-        
+
         // TODO: Llamar funciones para actualizar la interfaz
-        
+
+
+        mostrarProductosCarrito();
+        actualizarResumenCompra();
+
     } catch (error) {
         console.error('Error al cargar carrito:', error);
         carrito = [];
@@ -97,26 +106,84 @@ function cargarCarrito() {
  * - Botones con onclick funcionando (5 pts)
  */
 function mostrarProductosCarrito() {
-    // TODO: Paso 1: Limpiar contenido anterior
-    
-    
-    // TODO: Paso 2: Verificar si el carrito está vacío
+    listaCarrito.innerHTML = '';
+
     if (carrito.length === 0) {
-        // Mostrar mensaje de carrito vacío
         seccionVacia.style.display = 'block';
         seccionResumen.style.display = 'none';
         return;
     }
-    
-    // TODO: Paso 3: Si hay productos, ocultar mensaje vacío
+
     seccionVacia.style.display = 'none';
     seccionResumen.style.display = 'block';
-    
-    // TODO: Paso 4: Recorrer productos y crear elementos
+
     carrito.forEach((producto, indice) => {
-        // TODO: Crear elemento para cada producto
-        
-        
+        const item = document.createElement('div');
+        item.classList.add('cart-item');
+
+        // Imagen con clase
+        const imagen = document.createElement('img');
+        imagen.src = producto.imagen;
+        imagen.alt = producto.nombre;
+        imagen.classList.add('item-image');
+
+        // Info
+        const info = document.createElement('div');
+        info.classList.add('item-details');
+
+        const nombre = document.createElement('h3');
+        nombre.textContent = producto.nombre;
+        nombre.classList.add('item-title');
+
+        const precio = document.createElement('p');
+        precio.textContent = formatearPrecio(producto.precio);
+        precio.classList.add('item-price');
+
+        // Controles de cantidad
+        const controles = document.createElement('div');
+        controles.classList.add('quantity-controls');
+
+        const btnMenos = document.createElement('button');
+        btnMenos.textContent = '-';
+        btnMenos.classList.add('quantity-btn');
+        btnMenos.onclick = () => cambiarCantidad(indice, -1);
+
+        const spanCantidad = document.createElement('span');
+        spanCantidad.textContent = producto.cantidad;
+        spanCantidad.classList.add('quantity-display');
+
+        const btnMas = document.createElement('button');
+        btnMas.textContent = '+';
+        btnMas.classList.add('quantity-btn');
+        btnMas.onclick = () => cambiarCantidad(indice, 1);
+
+        controles.appendChild(btnMenos);
+        controles.appendChild(spanCantidad);
+        controles.appendChild(btnMas);
+
+        // Subtotal por producto (opcional, pero queda bien)
+        const subtotal = document.createElement('div');
+        subtotal.classList.add('item-subtotal');
+        subtotal.innerHTML = `<div class="subtotal-price">${formatearPrecio(producto.precio * producto.cantidad)}</div>
+                              <div class="unit-price">c/u: ${formatearPrecio(producto.precio)}</div>`;
+
+        // Botón eliminar
+        const btnEliminar = document.createElement('button');
+        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.classList.add('remove-item-btn');
+        btnEliminar.onclick = () => eliminarDelCarrito(indice);
+
+        // Estructura final
+        info.appendChild(nombre);
+        info.appendChild(precio);
+        info.appendChild(controles);
+
+        item.appendChild(imagen);
+        item.appendChild(info);
+        item.appendChild(subtotal);
+        item.appendChild(btnEliminar);
+
+        listaCarrito.appendChild(item);
     });
 }
 
@@ -148,24 +215,47 @@ function mostrarProductosCarrito() {
  */
 function cambiarCantidad(indice, cambio) {
     // TODO: Escribe tu código aquí
-    
+
     // Paso 1: Verificar índice válido
-    
-    
+    if (indice < 0 || indice >= carrito.length) {
+        console.error('Índice inválido para cambiar cantidad:', indice);
+        return;
+    }
+
+    const producto = carrito[indice];
+    const nuevaCantidad = producto.cantidad + cambio;
+
+    console.log(`Cambiando cantidad del producto ${producto.nombre} de ${producto.cantidad} a ${nuevaCantidad}`);
+
     // Paso 2: Calcular nueva cantidad
-    
-    
+
     // Paso 3: Manejar cantidad <= 0
-    
-    
+
     // Paso 4: Actualizar cantidad
-    
-    
+
+    if (nuevaCantidad <= 0) {
+        carrito.splice(indice, 1);
+    } else {
+        producto.cantidad = nuevaCantidad;
+    }
+
+    console.log('Nuevo carrito:', carrito);
+
+
     // Paso 5: Guardar en localStorage
-    
-    
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    console.log('Carrito guardado en localStorage');
+
+
     // Paso 6: Actualizar interfaz
-    
+
+    mostrarProductosCarrito();
+    actualizarResumenCompra();
+
+    console.log('Interfaz actualizada');
+
 }
 
 // ==========================================
@@ -192,19 +282,32 @@ function actualizarResumenCompra() {
     // const subtotal = carrito.reduce((total, producto) => {
     //     return total + (producto.precio * producto.cantidad);
     // }, 0);
-    
-    
+    const subtotal = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+
+
     // TODO: Paso 2: Contar total de items con reduce()
-    
-    
+    const totalItems = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+
+
     // TODO: Paso 3: Para este examen simplificado, total = subtotal
-    
-    
+
+    const total = subtotal;
+
+
     // TODO: Paso 4: Actualizar elementos del DOM
     // contadorItems.textContent = totalItems;
     // subtotalElemento.textContent = formatearPrecio(subtotal);
     // totalElemento.textContent = formatearPrecio(total);
-    
+
+    contadorItems.textContent = totalItems;
+    subtotalElemento.textContent = formatearPrecio(subtotal);
+    totalElemento.textContent = formatearPrecio(total);
+
+    console.log('Resumen actualizado:');
+    console.log('Subtotal:', subtotal);
+    console.log('Total Items:', totalItems);
+    console.log('Total:', total);
+
 }
 
 // ==========================================
@@ -228,19 +331,34 @@ function actualizarResumenCompra() {
  */
 function eliminarDelCarrito(indice) {
     // TODO: Escribe tu código aquí
-    
+
     // Paso 1: Verificar índice válido
-    
-    
+
+    if (indice < 0 || indice >= carrito.length) {
+        console.error('Índice inválido para eliminar del carrito:', indice);
+        return;
+    }
+
+    const producto = carrito[indice];
+    console.log(`Eliminando producto ${producto.nombre} del carrito`);
+
+
     // Paso 2: Eliminar con splice()
-    
-    
+    carrito.splice(indice, 1);
+    console.log('Carrito actualizado:', carrito);
+
+
     // Paso 3: Guardar en localStorage
-    
-    
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+
     // Paso 4: Actualizar interfaz
-    
-    
+
+    mostrarProductosCarrito();
+    actualizarResumenCompra();
+
+
     alert('Producto eliminado del carrito');
 }
 
@@ -261,11 +379,17 @@ function vaciarCarrito() {
     // TODO: Escribe tu código aquí
     if (confirm('¿Estás seguro de vaciar todo el carrito?')) {
         // TODO: Vaciar array y localStorage
-        
-        
+        carrito = [];
+        localStorage.removeItem('carrito');
+
+        console.log('Carrito vaciado');
+
+
         // TODO: Actualizar interfaz
-        
-        
+        mostrarProductosCarrito();
+        actualizarResumenCompra();
+
+
         alert('Carrito vaciado');
     }
 }
@@ -294,18 +418,18 @@ function formatearPrecio(precio) {
  * Esta función se ejecuta cuando se carga la página
  * YA ESTÁ COMPLETA - NO TOCAR
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('Cargando página del carrito...');
-    
+
     // Cargar carrito al inicio
     cargarCarrito();
-    
+
     // Event listener para botón de vaciar carrito
     const botonVaciar = document.getElementById('clearCartBtn');
     if (botonVaciar) {
         botonVaciar.addEventListener('click', vaciarCarrito);
     }
-    
+
     console.log('Página del carrito cargada');
 });
 

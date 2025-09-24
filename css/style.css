@@ -24,13 +24,18 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .header-container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
   padding: 0 20px;
 }
@@ -132,7 +137,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  align-items: center;
+  align-items: end;
 }
 
 .filter-group {
@@ -184,6 +189,7 @@ body {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
+  height: 50%;
 }
 
 .clear-filters:hover {
@@ -502,6 +508,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -512,6 +519,7 @@ body {
     transform: translateY(-20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -522,6 +530,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -531,9 +540,11 @@ body {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }

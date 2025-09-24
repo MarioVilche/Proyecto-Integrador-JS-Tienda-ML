@@ -40,12 +40,14 @@ const contadorCarrito = document.getElementById('cartCount');
  * - Conversión correcta a JSON (2 pts)
  * - Llamada a mostrarProductos() (2 pts)
  */
+
+
 async function cargarProductos() {
     try {
-        // TODO: Escribe tu código aquí
-        // Ejemplo: const respuesta = await fetch('data/productos.json');
-        
-        
+        const respuesta = await fetch('data/productos.json');
+        const data = await respuesta.json();
+        todosLosProductos = data.productos;
+        mostrarProductos(todosLosProductos);
     } catch (error) {
         console.error('Error al cargar productos:', error);
     }
@@ -81,16 +83,46 @@ async function cargarProductos() {
 function mostrarProductos(productos) {
     // TODO: Escribe tu código aquí
     // Paso 1: Limpiar contenido anterior
-    
-    
+
+    gridProductos.innerHTML = '';
+
     // Paso 2: Recorrer array de productos
-    
-    
-    // Paso 3: Crear tarjeta para cada producto
-    
-    
-    // Paso 4: Agregar tarjeta al grid
-    
+
+    productos.forEach(producto => {
+        const tarjeta = document.createElement('div');
+        tarjeta.classList.add('product-card');
+
+        // Paso 3: Crear tarjeta para cada producto
+        const imagen = document.createElement('img');
+        imagen.src = producto.imagen;
+        imagen.alt = producto.nombre;
+        imagen.classList.add('product-image');
+
+        const nombre = document.createElement('h3');
+        nombre.textContent = producto.nombre;
+        nombre.classList.add('product-title');
+
+        const precio = document.createElement('p');
+        precio.classList.add('product-price');
+        precio.textContent = `${formatearPrecio(producto.precio)}`;
+
+        const boton = document.createElement('button');
+        boton.textContent = 'Agregar al carrito';
+        boton.onclick = () => agregarAlCarrito(producto.id);
+        boton.classList.add('add-to-cart-btn');
+
+        tarjeta.appendChild(imagen);
+        tarjeta.appendChild(nombre);
+        tarjeta.appendChild(precio);
+        tarjeta.appendChild(boton);
+
+        // Paso 4: Agregar tarjeta al grid
+
+        gridProductos.appendChild(tarjeta);
+    });
+
+    const loadingState = document.getElementById('loadingState');
+    if (loadingState) loadingState.style.display = 'none';
 }
 
 // ==========================================
@@ -117,25 +149,51 @@ function mostrarProductos(productos) {
  */
 function agregarAlCarrito(idProducto) {
     // TODO: Escribe tu código aquí
-    
+
     // Paso 1: Buscar el producto
     // const producto = todosLosProductos.find(p => p.id === idProducto);
-    
+    const producto = todosLosProductos.find(function (p) {
+        return p.id === idProducto;
+    });
+
+    if (!producto) {
+        console.error('Producto no encontrado');
+        return;
+    }
+
     // Paso 2: Obtener carrito actual de localStorage
-    
-    
+
+    const carritoGuardado = localStorage.getItem('carrito');
+    carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+
+
     // Paso 3: Verificar si el producto ya está en el carrito
-    
-    
+
+    const productoEnCarrito = carrito.find(item => item.id === idProducto);
+
+
     // Paso 4: Agregar o actualizar cantidad
-    
-    
+
+    if (productoEnCarrito) {
+        productoEnCarrito.cantidad += 1;
+    } else {
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: 1,
+            imagen: producto.imagen
+        });
+    }
+
+
     // Paso 5: Guardar en localStorage
-    
-    
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
     // Paso 6: Actualizar contador
-    
-    
+
+    actualizarContadorCarrito();
+
     // Mensaje de confirmación (opcional)
     alert('Producto agregado al carrito!');
 }
@@ -159,15 +217,21 @@ function agregarAlCarrito(idProducto) {
  */
 function actualizarContadorCarrito() {
     // TODO: Escribe tu código aquí
-    
-    // Paso 1: Obtener carrito de localStorage
-    
-    
+
+    // Paso 1: Obtener carrito de localStorage    
+    const carritoGuardado = localStorage.getItem('carrito');
+    carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+
+
     // Paso 2: Calcular total con reduce()
-    
-    
+    const totalProductos = carrito.reduce((total, item) => total + item.cantidad, 0);
+
     // Paso 3: Mostrar en el contador
-    
+    contadorCarrito.textContent = totalProductos;
+
+    // Paso 3: Mostrar en el contador
+
+    contadorCarrito.textContent = totalProductos;
 }
 
 // ==========================================
@@ -194,15 +258,15 @@ function formatearPrecio(precio) {
  * Esta función se ejecuta cuando se carga la página
  * YA ESTÁ COMPLETA - NO TOCAR
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('Cargando tienda...');
-    
+
     // Cargar productos al inicio
     cargarProductos();
-    
+
     // Actualizar contador del carrito
     actualizarContadorCarrito();
-    
+
     console.log('Tienda cargada');
 });
 
